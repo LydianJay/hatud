@@ -1,0 +1,3 @@
+import 'package:get/get.dart';
+
+class Profile extends GetxController {}
