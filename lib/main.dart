@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app/routes/app_routes.dart';
+import 'app/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +16,9 @@ class MyApp extends StatelessWidget {
       title: 'Hatud',
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.splash,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light,
       getPages: AppRoutes.routes,
     );
   }

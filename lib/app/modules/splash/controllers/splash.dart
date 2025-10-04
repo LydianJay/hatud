@@ -13,6 +13,6 @@ class Splash extends GetxController {
     debugPrint('Called');
     await Future.delayed(const Duration(seconds: 3)); // splash delay
     debugPrint('Routinng....');
-    Get.offAllNamed('/home'); // navigate after delay
+    Get.offAllNamed('/login'); // navigate after delay
   }
 }
