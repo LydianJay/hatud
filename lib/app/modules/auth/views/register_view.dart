@@ -102,7 +102,7 @@ class RegisterView extends GetView<Auth> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  onPressed: () {},
+                  onPressed: controller.register,
                   child: Text('Register', style: theme.textTheme.labelMedium),
                 ),
               ),
