@@ -12,7 +12,7 @@ class ProfileView extends GetView<Profile> {
     final theme = Theme.of(context);
     final width = size.width;
     final height = size.height;
-    final ctrl = TextEditingController(text: 'Lydian Jay');
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -34,7 +34,7 @@ class ProfileView extends GetView<Profile> {
                     children: [
                       FormTextfield(
                         label: 'First Name:',
-                        controller: ctrl,
+                        controller: controller.fnameController,
                       ),
                     ],
                   ),

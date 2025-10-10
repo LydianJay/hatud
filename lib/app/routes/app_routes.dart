@@ -9,6 +9,8 @@ import '../modules/auth/views/login_view.dart';
 import '../modules/auth/views/register_view.dart';
 import '../modules/auth/controllers/auth.dart';
 
+import '../modules/profile/controllers/profile.dart';
+
 class AppRoutes {
   static const splash = '/splash';
   static const home = '/home';
@@ -34,7 +36,10 @@ class AppRoutes {
     GetPage(
       name: home,
       page: () => const NavbarView(),
-      binding: BindingsBuilder.put(() => Home()),
+      binding: BindingsBuilder(() {
+        Get.put(Home());
+        Get.lazyPut(() => Profile());
+      }),
     ),
   ];
 }

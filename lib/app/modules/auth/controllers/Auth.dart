@@ -70,8 +70,6 @@ class Auth extends GetxController {
         );
       } else {
         await storage.write(key: 'user_token', value: token.toString());
-
-        
       }
     } else {
       final data = jsonDecode(response.body);
@@ -148,9 +146,16 @@ class Auth extends GetxController {
 
   @override
   void onClose() {
-    // Dispose controllers to prevent memory leaks
     emailController.dispose();
     passwordController.dispose();
+
+    fnameController.dispose();
+    mnameController.dispose();
+    lnameController.dispose();
+
+    dobController.dispose();
+    contactController.dispose();
+    addressController.dispose();
     super.onClose();
   }
 }
