@@ -1,18 +1,18 @@
 // ignore: file_names
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../config/server_routes.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Auth extends GetxController {
   var isPasswordHidden = true.obs;
   var isLoading = false.obs;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final storage = const FlutterSecureStorage();
   final formKey = GlobalKey<FormState>();
 
   // Controllers
@@ -32,8 +32,7 @@ class Auth extends GetxController {
     debugPrint('Logging In!');
     isLoading.value = true;
 
-    if(emailController.text.isEmpty || passwordController.text.isEmpty) {
-      
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       Get.snackbar(
         'Error',
         'Empty email or password',
@@ -41,11 +40,9 @@ class Auth extends GetxController {
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
-      
-      isLoading.value = false;
-      
-    }
 
+      isLoading.value = false;
+    }
 
     final uri = Uri.parse(ServerRoutes.loginRoute);
     debugPrint(uri.toString());
@@ -62,15 +59,31 @@ class Auth extends GetxController {
       final data = jsonDecode(response.body);
       final token = data['token'];
       debugPrint('Token: $token');
+
+      if (token == null) {
+        Get.snackbar(
+          'Error',
+          'Invalid username or password',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.TOP,
+        );
+      } else {
+        await storage.write(key: 'user_token', value: token.toString());
+
+        
+      }
     } else {
       final data = jsonDecode(response.body);
-      final msg = data['msg'];
+      final msg = data['msg'] != null
+          ? data['msg'].toString()
+          : data['errors'].toString();
       Get.snackbar(
         'Error',
         msg,
         backgroundColor: Colors.red,
         colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     }
     isLoading.value = false;

@@ -15,6 +15,8 @@ class NavbarView extends GetView<Home> {
     // final size = MediaQuery.of(context).size;
     // final width = size.width;
     // final height = size.height;
+    final theme = Theme.of(context);
+
     final Home controller = Get.find();
     final List<Widget> pages = [
       const HomeView(),
@@ -28,9 +30,22 @@ class NavbarView extends GetView<Home> {
           ),
           bottomNavigationBar: ConvexAppBar(
             onTap: controller.changeTab,
-            items: const [
-              TabItem(icon: Icon(Icons.home), title: 'Home'),
-              TabItem(icon: Icon(Icons.person), title: 'Profile'),
+            color: Colors.white,
+            backgroundColor: theme.appBarTheme.backgroundColor,
+
+            // activeColor: theme.appBarTheme.foregroundColor,
+            items: [
+              TabItem(
+                  icon: Icon(
+                    Icons.home,
+                  ),
+                  title: 'Home'),
+              TabItem(
+                icon: Icon(
+                  Icons.person,
+                ),
+                title: 'Profile',
+              ),
             ],
           ),
         ));

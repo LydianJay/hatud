@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile.dart';
+import '../../../widgets/form_textfield.dart';
 
 class ProfileView extends GetView<Profile> {
   const ProfileView({super.key});
@@ -8,15 +9,39 @@ class ProfileView extends GetView<Profile> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
     final width = size.width;
     final height = size.height;
+    final ctrl = TextEditingController(text: 'Lydian Jay');
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          'My Profile',
+          style: theme.textTheme.labelLarge,
+        ),
+      ),
       body: Center(
-        child: Image.asset(
-          'assets/img/icons/hatud.jpg',
-          width: width * 0.75,
-          height: height * 0.85,
+        child: Column(
+          children: [
+            Container(
+              width: width * 0.95,
+              padding: const EdgeInsetsGeometry.all(2),
+              margin: const EdgeInsets.only(top: 10),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      FormTextfield(
+                        label: 'First Name:',
+                        controller: ctrl,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
