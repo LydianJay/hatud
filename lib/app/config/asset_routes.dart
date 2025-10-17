@@ -8,4 +8,8 @@ class AssetRoutes {
   static const itemThumbRoute = Env.debug
       ? '${Env.serverURL}/hatud/public/storage/upload/restaurant/thumb/'
       : '${Env.serverURL}/storage/upload/restaurant/thumb/';
+
+  static const resThumbRoute = Env.debug
+      ? '${Env.serverURL}/hatud/public/storage/images/restaurant/resthumb/'
+      : '${Env.serverURL}/storage/images/restaurant/resthumb/';
 }

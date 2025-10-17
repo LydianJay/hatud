@@ -58,7 +58,8 @@ class Auth extends GetxController {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final token = data['token'];
-      debugPrint('Token: $token');
+      // debugPrint(data.toString());
+      // debugPrint('Token: $token');
 
       if (token == null) {
         Get.snackbar(
@@ -70,9 +71,18 @@ class Auth extends GetxController {
         );
       } else {
         await storage.write(key: 'user_token', value: token.toString());
+        await Future.delayed(const Duration(seconds: 3));
+
+        if (token == null) {
+          Get.offAllNamed('/login');
+        } else {
+          Get.offAllNamed('/home');
+        }
       }
     } else {
       final data = jsonDecode(response.body);
+
+      // debugPrint(data.toString());
       final msg = data['msg'] != null
           ? data['msg'].toString()
           : data['errors'].toString();
@@ -111,7 +121,7 @@ class Auth extends GetxController {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        debugPrint(data['error'].toString());
+        // debugPrint(data['error'].toString());
 
         final code = int.parse(data['error'].toString());
 

@@ -13,6 +13,11 @@ class ServerRoutes {
       ? '${Env.serverURL}/hatud/public/api/items/get_popular'
       : '${Env.serverURL}/api/items/get_popular';
 
+  static const getRestaurants = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/restaurant/get_all'
+      : '${Env.serverURL}/api/restaurant/get_all';
 
-  
+  static const getClientDetails = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/clients/get_client_details'
+      : '${Env.serverURL}/api/clients/get_client_details';
 }
