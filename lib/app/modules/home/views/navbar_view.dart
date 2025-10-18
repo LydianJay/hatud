@@ -34,7 +34,7 @@ class NavbarView extends GetView<Home> {
             backgroundColor: theme.appBarTheme.backgroundColor,
 
             // activeColor: theme.appBarTheme.foregroundColor,
-            items: [
+            items: const [
               TabItem(
                   icon: Icon(
                     Icons.home,

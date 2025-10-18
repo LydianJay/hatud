@@ -90,7 +90,7 @@ class Home extends GetxController {
       },
     );
 
-    // debugPrint("Get Client info ${jsonDecode(response.body).toString()}");
+    debugPrint("Get Client info ${jsonDecode(response.body).toString()}");
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
