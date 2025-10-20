@@ -33,4 +33,6 @@ class Items {
       price: (json['price'] as num).toDouble(),
     );
   }
+
+  
 }

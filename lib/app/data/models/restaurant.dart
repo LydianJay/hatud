@@ -68,4 +68,39 @@ class Restaurant {
       photo: json['photo'],
     );
   }
+
+  factory Restaurant.basicDetails(Map<String, dynamic> json) {
+    return Restaurant(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      address: json['address'] ?? '',
+      lat: 0.0,
+      long: 0.0,
+      contact: json['contactno'] ?? '',
+      email: '',
+      thumb: json['thumb'] ?? '',
+      start: json['optime_start'] ?? '',
+      end: json['optime_end'] ?? '',
+      days: (json['optime_days'] is List)
+          ? (json['optime_days'] as List)
+              .map((e) => int.tryParse(e.toString()) ?? 0)
+              .toList()
+          : [],
+      isActive: true,
+    );
+  }
+
+  List<String> daysToString() {
+    final dayMap = {
+      0: 'Sun',
+      1: 'Mon',
+      2: 'Tue',
+      3: 'Wed',
+      4: 'Thu',
+      5: 'Fri',
+      6: 'Sat',
+    };
+
+    return days.map((e) => dayMap[e] ?? '').toList();
+  }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/home.dart';
 import '../../../widgets/custom_searchbar.dart';
 import '../../../config/asset_routes.dart';
+import '../../../routes/app_routes.dart';
 
 class HomeView extends GetView<Home> {
   const HomeView({super.key});
@@ -38,11 +39,12 @@ class HomeView extends GetView<Home> {
                   return const Center(child: CircularProgressIndicator());
                 }
                 return Text(
-                  controller.name.value,
+                  "Welcome! ${controller.name.value}",
                   textAlign: TextAlign.center,
+                  maxLines: 2,
                   style: TextStyle(
                     color: theme.colorScheme.secondary,
-                    fontSize: 42,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 );
@@ -176,34 +178,39 @@ class HomeView extends GetView<Home> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: controller.items.map((item) {
-                          return Container(
-                            width: 120,
-                            margin: const EdgeInsets.only(right: 10),
-                            child: Column(
-                              children: [
-                                ClipOval(
-                                  child: Image.network(
-                                    '$thumbRoute${item.thumb}',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.itemView, arguments: item);
+                            },
+                            child: Container(
+                              width: 120,
+                              margin: const EdgeInsets.only(right: 10),
+                              child: Column(
+                                children: [
+                                  ClipOval(
+                                    child: Image.network(
+                                      '$thumbRoute${item.thumb}',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  item.name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    item.name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '₱${item.price.toStringAsFixed(0)}',
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                              ],
+                                  Text(
+                                    '₱${item.price.toStringAsFixed(0)}',
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }).toList(),

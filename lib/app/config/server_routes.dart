@@ -20,4 +20,8 @@ class ServerRoutes {
   static const getClientDetails = Env.debug
       ? '${Env.serverURL}/hatud/public/api/clients/get_client_details'
       : '${Env.serverURL}/api/clients/get_client_details';
+
+  static const getResBasicDetails = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/restaurant/get_basic_details'
+      : '${Env.serverURL}/api/restaurant/get_basic_details';
 }

@@ -9,6 +9,9 @@ import '../modules/auth/views/login_view.dart';
 import '../modules/auth/views/register_view.dart';
 import '../modules/auth/controllers/auth.dart';
 
+import '../modules/item/views/item_view.dart';
+import '../modules/item/controllers/item.dart';
+
 import '../modules/profile/controllers/profile.dart';
 
 class AppRoutes {
@@ -16,6 +19,7 @@ class AppRoutes {
   static const home = '/home';
   static const login = '/login';
   static const register = '/register';
+  static const itemView = '/item_view';
 
   static final routes = [
     GetPage(
@@ -40,6 +44,11 @@ class AppRoutes {
         Get.put(Home());
         Get.lazyPut(() => Profile());
       }),
+    ),
+    GetPage(
+      name: itemView,
+      page: () => const ItemView(),
+      binding: BindingsBuilder.put(() => Item()),
     ),
   ];
 }

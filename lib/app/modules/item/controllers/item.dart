@@ -7,18 +7,31 @@ import 'dart:convert';
 import '../../../config/server_routes.dart';
 import '../../../data/models/items.dart';
 import '../../../config/asset_routes.dart';
+import '../../../data/models/items.dart';
+import '../../../service/restaurant_service.dart';
 
 class Item extends GetxController {
   final storage = const FlutterSecureStorage();
+  Items? item;
   String? token;
+  var res = Rxn<Restaurant>();
 
   @override
   void onInit() async {
     super.onInit();
 
+    getKey();
+  }
+
+  void getKey() async {
     token = await storage.read(key: 'user_token');
     if (token == null) {
       Get.offAllNamed('/login');
     }
+
+    item = Get.arguments as Items;
+    res.value = await RestaurantService.getBasicDetails(token!, item!.resID);
+
+    update();
   }
 }

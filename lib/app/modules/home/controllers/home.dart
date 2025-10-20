@@ -65,13 +65,13 @@ class Home extends GetxController {
       final data = jsonDecode(response.body);
 
       final itemsJson = data['items'] as List;
-      debugPrint('Get Restaurants');
-      debugPrint(itemsJson.toString());
+      // debugPrint('Get Restaurants');
+      // debugPrint(itemsJson.toString());
 
       final resItems = itemsJson.map((i) => Restaurant.fromJson(i)).toList();
       restaurants.value = resItems;
 
-      debugPrint(resItems.toString());
+      // debugPrint(resItems.toString());
     } else {
       final data = jsonDecode(response.body);
       debugPrint(data.toString());
