@@ -13,6 +13,7 @@ import '../modules/item/views/item_view.dart';
 import '../modules/item/controllers/item.dart';
 
 import '../modules/profile/controllers/profile.dart';
+import '../modules/profile/views/profile_view.dart';
 
 class AppRoutes {
   static const splash = '/splash';
@@ -20,6 +21,7 @@ class AppRoutes {
   static const login = '/login';
   static const register = '/register';
   static const itemView = '/item_view';
+  static const profile = '/profile';
 
   static final routes = [
     GetPage(
@@ -44,6 +46,11 @@ class AppRoutes {
         Get.put(Home());
         Get.lazyPut(() => Profile());
       }),
+    ),
+    GetPage(
+      name: profile,
+      page: () => const ProfileView(),
+      binding: BindingsBuilder.put(() => Profile()),
     ),
     GetPage(
       name: itemView,

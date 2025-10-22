@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../config/server_routes.dart';
 import '../../../data/models/items.dart';
-import '../../../config/asset_routes.dart';
+import '../../../data/models/user.dart';
+import '../../../service/user_service.dart';
 
 class Home extends GetxController {
   var selectedIndex = 0.obs;
@@ -15,6 +16,8 @@ class Home extends GetxController {
   var items = <Items>[].obs;
   var restaurants = <Restaurant>[].obs;
   var name = ''.obs;
+  var user = Rxn<User>();
+
   String? token;
   void changeTab(int index) {
     selectedIndex.value = index;
@@ -116,14 +119,25 @@ class Home extends GetxController {
   }
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
 
+    init();
+  }
+
+  void init() async {
     token = await storage.read(key: 'user_token');
     if (token != null) {
       getClientInfo();
       getPopularItems();
       getRestaurants();
+      final user = await UserService.getUser(token!);
+      if (user == null) {
+        await storage.delete(key: 'user_token');
+        Get.offAllNamed('/login');
+      } else {
+        this.user.value = user;
+      }
     }
   }
 }
