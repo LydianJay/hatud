@@ -8,6 +8,8 @@ class User {
   final bool isVerified;
   final double lat;
   final double long;
+  final String? photo; // URI for photo
+  final String address;
   final int id;
 
   User({
@@ -21,6 +23,8 @@ class User {
     required this.lat,
     required this.long,
     required this.id,
+    required this.photo,
+    required this.address,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -32,9 +36,11 @@ class User {
       contactno: json['contactno'],
       gender: json['gender'] ?? 'other',
       email: json['email'],
+      photo: json['photo'],
       isVerified: json['is_verified'] == 1 ? true : false,
       lat: json['lat'] ?? 0,
       long: json['long'] ?? 0,
+      address: json['address'] ?? '',
     );
   }
 
@@ -50,6 +56,7 @@ class User {
       'is_verified': isVerified,
       'lat': lat,
       'long': long,
+      'address': address,
     };
   }
 }

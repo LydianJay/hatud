@@ -12,4 +12,8 @@ class AssetRoutes {
   static const resThumbRoute = Env.debug
       ? '${Env.serverURL}/hatud/public/storage/images/restaurant/resthumb/'
       : '${Env.serverURL}/storage/images/restaurant/resthumb/';
+
+  static const userProfile = Env.debug
+      ? '${Env.serverURL}/hatud/public/storage/users/avatar/'
+      : '${Env.serverURL}/storage/users/avatar/'; 
 }

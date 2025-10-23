@@ -28,4 +28,8 @@ class ServerRoutes {
   static const getUser = Env.debug
       ? '${Env.serverURL}/hatud/public/api/user/get'
       : '${Env.serverURL}/api/user/get';
+
+  static const updateUser = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/user/update'
+      : '${Env.serverURL}/api/user/update';
 }

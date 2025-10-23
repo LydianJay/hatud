@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/profile.dart';
+import '../views/map_picker_view.dart';
+import '../../../config/asset_routes.dart';
 
 class ProfileView extends GetView<Profile> {
   const ProfileView({super.key});
@@ -23,15 +25,28 @@ class ProfileView extends GetView<Profile> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         child: Column(
           children: [
-            // 🧑 Profile Avatar
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                CircleAvatar(
-                  radius: 60,
-                  backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
-                  backgroundImage:
-                      const AssetImage('assets/images/avatar_placeholder.png'),
+                GestureDetector(
+                  onTap: () {
+                    controller.openMedia();
+                  },
+                  child: Obx(
+                    () => CircleAvatar(
+                      radius: 60,
+                      backgroundColor: theme.colorScheme.primary.withAlpha(25),
+                      backgroundImage: controller.imageFile.value != null
+                          ? FileImage(controller.imageFile.value!)
+                          : controller.profileImagePath.value == null
+                              ? const AssetImage(
+                                      'assets/img/avatars/avatar-placeholder.png')
+                                  as ImageProvider
+                              : NetworkImage(
+                                      '${AssetRoutes.userProfile}${controller.profileImagePath.value!}')
+                                  as ImageProvider,
+                    ),
+                  ),
                 ),
                 Positioned(
                   bottom: 4,
@@ -45,7 +60,7 @@ class ProfileView extends GetView<Profile> {
                     child: const Icon(Icons.camera_alt,
                         color: Colors.white, size: 20),
                   ),
-                )
+                ),
               ],
             ),
 
@@ -59,12 +74,43 @@ class ProfileView extends GetView<Profile> {
             _buildTextField(
                 controller.lnameController, 'Last Name', Icons.person),
             _buildTextField(
-                controller.emailController, 'Email', Icons.email_outlined,
-                keyboardType: TextInputType.emailAddress),
+              keyboardType:
+                  const TextInputType.numberWithOptions(signed: false),
+              controller.contactnoController,
+              'Contact No.',
+              Icons.phone,
+            ),
+            GestureDetector(
+              onTap: () async {
+                final result = await Get.to(() => const MapPickerView());
+                if (result != null) {
+                  controller.mapLocController.text = result['address'];
+                  controller.lat = result['lat'];
+                  controller.long = result['lng'];
+                }
+              },
+              child: AbsorbPointer(
+                child: _buildTextField(
+                  controller.mapLocController,
+                  'Map Location',
+                  Icons.map,
+                ),
+              ),
+            ),
+
             _buildTextField(
-                controller.passwordController, 'Password', Icons.lock_outline,
-                obscureText: true,
-                hintText: 'Leave blank to keep current password'),
+              controller.addressController,
+              'Address',
+              Icons.location_on_sharp,
+            ),
+
+            // _buildTextField(
+            //     controller.emailController, 'Email', Icons.email_outlined,
+            //     keyboardType: TextInputType.emailAddress),
+            // _buildTextField(
+            //     controller.passwordController, 'Password', Icons.lock_outline,
+            //     obscureText: true,
+            //     hintText: 'Leave blank to keep current password'),
 
             const SizedBox(height: 30),
 
@@ -73,9 +119,7 @@ class ProfileView extends GetView<Profile> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // Call your update logic (controller or UserService)
-                  // Example:
-                  // controller.updateProfile();
+                  controller.updateUser();
                 },
                 icon: const Icon(Icons.save),
                 label: const Text('Save Changes'),
@@ -97,7 +141,6 @@ class ProfileView extends GetView<Profile> {
     );
   }
 
-  /// 🔹 Reusable input field builder
   Widget _buildTextField(
     TextEditingController controller,
     String label,
