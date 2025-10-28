@@ -15,6 +15,9 @@ import '../modules/item/controllers/item.dart';
 import '../modules/profile/controllers/profile.dart';
 import '../modules/profile/views/profile_view.dart';
 
+import '../modules/cart/controllers/cart.dart';
+import '../modules/cart/views/cart_view.dart';
+
 class AppRoutes {
   static const splash = '/splash';
   static const home = '/home';
@@ -22,6 +25,7 @@ class AppRoutes {
   static const register = '/register';
   static const itemView = '/item_view';
   static const profile = '/profile';
+  static const cart = '/cart';
 
   static final routes = [
     GetPage(
@@ -45,6 +49,7 @@ class AppRoutes {
       binding: BindingsBuilder(() {
         Get.put(Home());
         Get.lazyPut(() => Profile());
+        Get.lazyPut(() => Cart());
       }),
     ),
     GetPage(
@@ -56,6 +61,11 @@ class AppRoutes {
       name: itemView,
       page: () => const ItemView(),
       binding: BindingsBuilder.put(() => Item()),
+    ),
+    GetPage(
+      name: cart,
+      page: () => const CartView(),
+      binding: BindingsBuilder.put(() => Cart()),
     ),
   ];
 }

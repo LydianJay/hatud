@@ -8,6 +8,7 @@ import '../../../config/server_routes.dart';
 import '../../../data/models/items.dart';
 import '../../../data/models/user.dart';
 import '../../../service/user_service.dart';
+import '../../cart/controllers/cart.dart';
 
 class Home extends GetxController {
   var selectedIndex = 0.obs;
@@ -19,8 +20,15 @@ class Home extends GetxController {
   var user = Rxn<User>();
 
   String? token;
-  void changeTab(int index) {
+  void changeTab(int index) async {
     selectedIndex.value = index;
+    if (index == 2) {
+      // Cart tab index
+      final cartController = Get.find<Cart>();
+      if (cartController.token != null) {
+        await cartController.fetchCartItems(cartController.token!);
+      }
+    }
   }
 
   void onSearchSubmit(String text) {

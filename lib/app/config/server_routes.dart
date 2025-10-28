@@ -32,4 +32,13 @@ class ServerRoutes {
   static const updateUser = Env.debug
       ? '${Env.serverURL}/hatud/public/api/user/update'
       : '${Env.serverURL}/api/user/update';
+
+  static const addItem = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/user/cart/add_item'
+      : '${Env.serverURL}/api/user/cart/add_item';
+
+
+  static const getCartItems = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/user/cart/get_cart_items'
+      : '${Env.serverURL}/api/user/cart/get_cart_items';
 }

@@ -37,7 +37,9 @@ class ItemView extends GetView<Item> {
                   openTime: controller.res.value!.start +
                       "-" +
                       controller.res.value!.end,
-                  onAddToCart: () {},
+                  onAddToCart: () {
+                    controller.addToCart(controller.item!.id, 1);
+                  },
                 ),
               ],
             ),

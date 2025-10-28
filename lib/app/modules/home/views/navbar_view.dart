@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home.dart';
 import '../../profile/views/profile_view.dart';
+import '../../cart/views/cart_view.dart';
 import '../views/home_view.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
@@ -21,6 +22,7 @@ class NavbarView extends GetView<Home> {
     final List<Widget> pages = [
       const HomeView(),
       const ProfileView(),
+      const CartView(),
     ];
 
     return Obx(() => Scaffold(
@@ -32,19 +34,30 @@ class NavbarView extends GetView<Home> {
             onTap: controller.changeTab,
             color: Colors.white,
             backgroundColor: theme.appBarTheme.backgroundColor,
+            activeColor: theme.colorScheme.secondary,
 
             // activeColor: theme.appBarTheme.foregroundColor,
             items: const [
               TabItem(
-                  icon: Icon(
-                    Icons.home,
-                  ),
-                  title: 'Home'),
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.white,
+                ),
+                title: 'Home',
+              ),
               TabItem(
                 icon: Icon(
                   Icons.person,
+                  color: Colors.white,
                 ),
                 title: 'Profile',
+              ),
+              TabItem(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                ),
+                title: 'My Cart',
               ),
             ],
           ),

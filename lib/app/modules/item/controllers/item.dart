@@ -9,6 +9,7 @@ import '../../../data/models/items.dart';
 import '../../../config/asset_routes.dart';
 import '../../../data/models/items.dart';
 import '../../../service/restaurant_service.dart';
+import '../../../service/cart_service.dart';
 
 class Item extends GetxController {
   final storage = const FlutterSecureStorage();
@@ -33,5 +34,16 @@ class Item extends GetxController {
     res.value = await RestaurantService.getBasicDetails(token!, item!.resID);
 
     update();
+  }
+
+  void addToCart(int itemID, int qty) async {
+    if (token == null) {
+      Get.offAllNamed('/login');
+    }
+    bool success = await CartService.addToCart(token!, itemID, qty);
+
+    if (success) {
+      Get.toNamed('/cart');
+    }
   }
 }
