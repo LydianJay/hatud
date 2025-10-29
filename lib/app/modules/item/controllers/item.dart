@@ -10,6 +10,7 @@ import '../../../config/asset_routes.dart';
 import '../../../data/models/items.dart';
 import '../../../service/restaurant_service.dart';
 import '../../../service/cart_service.dart';
+import '../../cart/controllers/cart.dart';
 
 class Item extends GetxController {
   final storage = const FlutterSecureStorage();
@@ -41,8 +42,10 @@ class Item extends GetxController {
       Get.offAllNamed('/login');
     }
     bool success = await CartService.addToCart(token!, itemID, qty);
+    final cartController = Get.find<Cart>();
 
     if (success) {
+      await cartController.fetchCartItems(token!);
       Get.toNamed('/cart');
     }
   }

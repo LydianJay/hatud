@@ -146,17 +146,25 @@ class CartView extends GetView<Cart> {
                                 Text(
                                   item.res_name,
                                   style: const TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 14,
                                     color: Colors.green,
                                   ),
                                 ),
-                                const SizedBox(height: 8),
+                                // const SizedBox(height: 4),
                                 Text(
                                   '₱${item.price.toStringAsFixed(2)}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.blue,
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'QTY: ${item.qty}',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
                                   ),
                                 ),
                               ],
@@ -215,6 +223,13 @@ class CartView extends GetView<Cart> {
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blue),
+                          ),
+                          Text(
+                            'Delivery Fee: ₱${controller.totalPrice.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                           ),
                         ],
                       )),
