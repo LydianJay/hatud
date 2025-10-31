@@ -37,7 +37,6 @@ class ServerRoutes {
       ? '${Env.serverURL}/hatud/public/api/user/cart/add_item'
       : '${Env.serverURL}/api/user/cart/add_item';
 
-
   static const getCartItems = Env.debug
       ? '${Env.serverURL}/hatud/public/api/user/cart/get_cart_items'
       : '${Env.serverURL}/api/user/cart/get_cart_items';
@@ -45,4 +44,12 @@ class ServerRoutes {
   static const adjustItem = Env.debug
       ? '${Env.serverURL}/hatud/public/api/user/cart/adjust_qty'
       : '${Env.serverURL}/api/user/cart/adjust_qty';
+
+  static const checkout = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/user/cart/checkout'
+      : '${Env.serverURL}/api/user/cart/checkout';
+
+  static const getOrder = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/user/orders/get'
+      : '${Env.serverURL}/api/user/orders/get';
 }

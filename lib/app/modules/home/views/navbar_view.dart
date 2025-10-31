@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import '../controllers/home.dart';
 import '../../profile/views/profile_view.dart';
 import '../../cart/views/cart_view.dart';
+import '../../orders/views/orders_view.dart';
 import '../views/home_view.dart';
+
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class NavbarView extends GetView<Home> {
@@ -23,6 +25,7 @@ class NavbarView extends GetView<Home> {
       const HomeView(),
       const ProfileView(),
       const CartView(),
+      const OrdersView(),
     ];
 
     return Obx(() => Scaffold(
@@ -58,6 +61,13 @@ class NavbarView extends GetView<Home> {
                   color: Colors.white,
                 ),
                 title: 'My Cart',
+              ),
+              TabItem(
+                icon: Icon(
+                  Icons.delivery_dining,
+                  color: Colors.white,
+                ),
+                title: 'Orders',
               ),
             ],
           ),

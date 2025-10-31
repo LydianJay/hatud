@@ -19,6 +19,9 @@ import '../modules/cart/controllers/cart.dart';
 import '../modules/cart/views/cart_view.dart';
 import '../modules/cart/views/checkout_view.dart';
 
+import '../modules/orders/controllers/orders.dart';
+import '../modules/orders/views/orders_view.dart';
+
 class AppRoutes {
   static const splash = '/splash';
   static const home = '/home';
@@ -28,6 +31,7 @@ class AppRoutes {
   static const profile = '/profile';
   static const cart = '/cart';
   static const checkout = '/checkout';
+  static const orders = '/orders';
 
   static final routes = [
     GetPage(
@@ -52,6 +56,7 @@ class AppRoutes {
         Get.put(Home());
         Get.lazyPut(() => Profile());
         Get.lazyPut(() => Cart());
+        Get.lazyPut(() => Orders());
       }),
     ),
     GetPage(
@@ -73,6 +78,11 @@ class AppRoutes {
       name: checkout,
       page: () => const CheckoutView(),
       binding: BindingsBuilder.put(() => Cart()),
+    ),
+    GetPage(
+      name: orders,
+      page: () => const OrdersView(),
+      binding: BindingsBuilder.put(() => Orders()),
     ),
   ];
 }

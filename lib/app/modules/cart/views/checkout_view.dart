@@ -240,7 +240,6 @@ class CheckoutView extends GetView<Cart> {
               ),
             ),
 
-            // ✅ Place Order Button
             Container(
               padding: const EdgeInsets.all(16),
               width: double.infinity,

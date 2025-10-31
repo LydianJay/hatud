@@ -128,4 +128,37 @@ class CartService {
       return false;
     }
   }
+
+  static Future<bool> checkOut(String token) async {
+    final uri = Uri.parse(ServerRoutes.checkout);
+
+    try {
+      final response = await http.post(
+        uri,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        if (data['error'] == 0) {
+          return true;
+        } else {
+          debugPrint('checkOut | Server returned error: ${data['msg']}');
+          return false;
+        }
+      } else {
+        debugPrint('checkOut | HTTP Error: ${response.statusCode}');
+        debugPrint(response.body);
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Exception occurred in checkOut: $e');
+      return false;
+    }
+  }
 }

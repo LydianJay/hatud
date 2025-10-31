@@ -28,14 +28,34 @@ class Cart extends GetxController {
 
   Future<void> placeOrder() async {
     isProcessing.value = true;
-
+    if (token == null) {
+      Get.offAllNamed('/login');
+    }
     try {
-      // perform API call to confirm order
-      // ...
-      Get.snackbar("Success", "Your order has been placed!");
-      cartItems.clear();
+      bool success = await CartService.checkOut(token!);
+      if (success) {
+        Get.snackbar(
+          'Success',
+          'Your order is now currently in processing',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        cartItems.clear();
+      } else {
+        Get.snackbar(
+          'ERROR',
+          'Could no place order! Please try again later or check internet connection',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
     } catch (e) {
-      Get.snackbar("Error", "Failed to place order");
+      Get.snackbar(
+        'ERROR',
+        'Could no place order! Please try again later or check internet connection',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     } finally {
       isProcessing.value = false;
     }
@@ -71,7 +91,6 @@ class Cart extends GetxController {
         deliveryFee.value = cartItem.delivery;
         isLocationSet.value = UserService.cachedUser!.lat != null &&
             UserService.cachedUser!.long != null;
-        debugPrint(isLocationSet.value.toString());
         itemFee.value = 0;
         for (var e in cartItems) {
           itemFee.value += (e.price * e.qty);
