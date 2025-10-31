@@ -8,15 +8,16 @@ class CartModel {
   final int item_id;
   final double price;
 
-  CartModel(
-      {required this.id,
-      required this.qty,
-      required this.res_name,
-      required this.res_thumb,
-      required this.item_name,
-      required this.item_thumb,
-      required this.item_id,
-      required this.price});
+  CartModel({
+    required this.id,
+    required this.qty,
+    required this.res_name,
+    required this.res_thumb,
+    required this.item_name,
+    required this.item_thumb,
+    required this.item_id,
+    required this.price,
+  });
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     return CartModel(
@@ -31,7 +32,9 @@ class CartModel {
           : int.parse(json['item_id'].toString()),
       price: json['price'] is double
           ? json['price']
-          : double.parse(json['price'].toString()),
+          : double.parse(
+              json['price'].toString(),
+            ),
     );
   }
 }

@@ -4,6 +4,13 @@ import 'dart:convert';
 import '../config/server_routes.dart';
 import '../data/models/cartmodel.dart';
 
+class CartResponse {
+  final List<CartModel> items;
+  final double? delivery;
+
+  CartResponse({required this.items, required this.delivery});
+}
+
 class CartService {
   static Future<bool> addToCart(String token, int itemID, int qty) async {
     final uri = Uri.parse(ServerRoutes.addItem);
@@ -42,7 +49,7 @@ class CartService {
     return false;
   }
 
-  static Future<List<CartModel>> getCartItems(String token) async {
+  static Future<CartResponse> getCartItems(String token) async {
     final uri = Uri.parse(ServerRoutes.getCartItems);
 
     try {
@@ -59,25 +66,66 @@ class CartService {
         final data = jsonDecode(response.body);
 
         if (data['error'] == 0 && data['items'] != null) {
-          // Map each JSON item to a CartModel
-          debugPrint('Cart Service!');
+          debugPrint('Cart Service! Get Cart Items');
           debugPrint(data.toString());
+
           List<CartModel> cartItems = (data['items'] as List)
               .map((item) => CartModel.fromJson(item))
               .toList();
-          return cartItems;
+
+          return CartResponse(
+            items: cartItems,
+            delivery: (data['fee'] as num).toDouble(),
+          );
         } else {
           debugPrint('Server returned error: ${data['msg']}');
-          return [];
+          return CartResponse(items: [], delivery: 0.0);
         }
       } else {
         debugPrint('HTTP Error: ${response.statusCode}');
         debugPrint(response.body);
-        return [];
+        return CartResponse(items: [], delivery: 0.0);
       }
     } catch (e) {
       debugPrint('Exception occurred in getCartItems: $e');
-      return [];
+      return CartResponse(items: [], delivery: 0.0);
+    }
+  }
+
+  static Future<bool> adjustQTY(String token, int qty, int itemID) async {
+    final uri = Uri.parse(ServerRoutes.adjustItem);
+
+    try {
+      final response = await http.post(
+        uri,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'item_id': itemID,
+          'qty': qty,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        if (data['error'] == 0) {
+          return true;
+        } else {
+          debugPrint('adjustQTY | Server returned error: ${data['msg']}');
+          return false;
+        }
+      } else {
+        debugPrint('adjustQTY | HTTP Error: ${response.statusCode}');
+        debugPrint(response.body);
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Exception occurred in adjustQTY: $e');
+      return false;
     }
   }
 }

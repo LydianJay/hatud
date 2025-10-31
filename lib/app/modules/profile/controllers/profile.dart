@@ -17,17 +17,10 @@ class Profile extends GetxController {
   final contactnoController = TextEditingController();
   // final passwordController = TextEditingController();
   final addressController = TextEditingController();
-  double lat = 0, long = 0;
+  double? lat, long;
   final ImagePicker _picker = ImagePicker();
   final Rx<File?> imageFile = Rx<File?>(null);
   final Rx<String?> profileImagePath = Rx<String?>(null);
-  // mage.network(
-  //                                   '$thumbRoute${item.thumb}',
-  //                                   width: 100,
-  //                                   height: 100,
-  //                                   fit: BoxFit.cover,
-  //                                 ),
-  // final storage = const FlutterSecureStorage();
 
   @override
   void onInit() {
@@ -94,8 +87,8 @@ class Profile extends GetxController {
     long = home.user.value!.long;
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
-        lat,
-        long,
+        lat == null ? 9.6210 : lat!,
+        long == null ? 125.9670 : long!,
       );
       if (placemarks.isNotEmpty) {
         final p = placemarks.first;

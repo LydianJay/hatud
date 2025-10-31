@@ -6,8 +6,8 @@ class User {
   final String gender;
   final String email;
   final bool isVerified;
-  final double lat;
-  final double long;
+  final double? lat;
+  final double? long;
   final String? photo; // URI for photo
   final String address;
   final int id;
@@ -38,8 +38,8 @@ class User {
       email: json['email'],
       photo: json['photo'],
       isVerified: json['is_verified'] == 1 ? true : false,
-      lat: json['lat'] ?? 0,
-      long: json['long'] ?? 0,
+      lat: json['lat'],
+      long: json['long'],
       address: json['address'] ?? '',
     );
   }

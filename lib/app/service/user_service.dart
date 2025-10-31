@@ -36,6 +36,10 @@ class UserService {
     return null;
   }
 
+  static User? getCachedUser() {
+    return cachedUser;
+  }
+
   static Future<bool> updateUser(
     String token,
     Map<String, dynamic> userData, {

@@ -41,4 +41,8 @@ class ServerRoutes {
   static const getCartItems = Env.debug
       ? '${Env.serverURL}/hatud/public/api/user/cart/get_cart_items'
       : '${Env.serverURL}/api/user/cart/get_cart_items';
+
+  static const adjustItem = Env.debug
+      ? '${Env.serverURL}/hatud/public/api/user/cart/adjust_qty'
+      : '${Env.serverURL}/api/user/cart/adjust_qty';
 }

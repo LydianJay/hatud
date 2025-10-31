@@ -17,6 +17,7 @@ import '../modules/profile/views/profile_view.dart';
 
 import '../modules/cart/controllers/cart.dart';
 import '../modules/cart/views/cart_view.dart';
+import '../modules/cart/views/checkout_view.dart';
 
 class AppRoutes {
   static const splash = '/splash';
@@ -26,6 +27,7 @@ class AppRoutes {
   static const itemView = '/item_view';
   static const profile = '/profile';
   static const cart = '/cart';
+  static const checkout = '/checkout';
 
   static final routes = [
     GetPage(
@@ -65,6 +67,11 @@ class AppRoutes {
     GetPage(
       name: cart,
       page: () => const CartView(),
+      binding: BindingsBuilder.put(() => Cart()),
+    ),
+    GetPage(
+      name: checkout,
+      page: () => const CheckoutView(),
       binding: BindingsBuilder.put(() => Cart()),
     ),
   ];

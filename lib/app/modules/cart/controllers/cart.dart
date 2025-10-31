@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:hatud/app/modules/home/controllers/home.dart';
@@ -16,22 +17,45 @@ class Cart extends GetxController {
   String? token;
   var isLoading = false.obs;
   var hasError = false.obs;
+  var isLocationSet = false.obs;
+  var itemFee = 0.0.obs;
+  var totalPrice = 0.0.obs;
+  var deliveryFee = RxnDouble();
 
-  double get totalPrice =>
-      cartItems.fold(0, (sum, item) => sum + (item.price * item.qty));
+  final isProcessing = false.obs;
+  final selectedPaymentMethod = "cod".obs;
+  final deliveryAddress = "No address set".obs;
 
-  void increaseQty(int itemId) {
-    final index = cartItems.indexWhere((i) => i.item_id == itemId);
-    if (index != -1) {
-      cartItems[index] = CartModel(
-        id: cartItems[index].id,
-        qty: cartItems[index].qty + 1,
-        res_name: cartItems[index].res_name,
-        res_thumb: cartItems[index].res_thumb,
-        item_name: cartItems[index].item_name,
-        item_thumb: cartItems[index].item_thumb,
-        item_id: cartItems[index].item_id,
-        price: cartItems[index].price,
+  Future<void> placeOrder() async {
+    isProcessing.value = true;
+
+    try {
+      // perform API call to confirm order
+      // ...
+      Get.snackbar("Success", "Your order has been placed!");
+      cartItems.clear();
+    } catch (e) {
+      Get.snackbar("Error", "Failed to place order");
+    } finally {
+      isProcessing.value = false;
+    }
+  }
+
+  void adjustQTY(int itemID, int qty) async {
+    if (token == null) {
+      Get.offAllNamed('/login');
+    }
+    final index = cartItems.indexWhere((i) => i.item_id == itemID);
+
+    bool isSuccess = await CartService.adjustQTY(token!, qty, itemID);
+    if (index != -1 && isSuccess) {
+      await fetchCartItems(token!);
+    } else {
+      Get.snackbar(
+        'ERROR',
+        'Could Not connect to server! Please try again later or check internet connection',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
       );
     }
   }
@@ -41,12 +65,24 @@ class Cart extends GetxController {
       isLoading.value = true;
       hasError.value = false;
 
-      final items = await CartService.getCartItems(token);
-
-      if (items.isNotEmpty) {
-        cartItems.assignAll(items);
+      final cartItem = await CartService.getCartItems(token);
+      if (cartItem.items.isNotEmpty) {
+        cartItems.assignAll(cartItem.items);
+        deliveryFee.value = cartItem.delivery;
+        isLocationSet.value = UserService.cachedUser!.lat != null &&
+            UserService.cachedUser!.long != null;
+        debugPrint(isLocationSet.value.toString());
+        itemFee.value = 0;
+        for (var e in cartItems) {
+          itemFee.value += (e.price * e.qty);
+        }
+        totalPrice.value = itemFee.value +
+            (deliveryFee.value != null ? deliveryFee.value! : 0);
       } else {
         cartItems.clear();
+        deliveryFee.value = null;
+        totalPrice.value = 0;
+        itemFee.value = 0;
       }
     } catch (e) {
       debugPrint('Error fetching cart items: $e');
@@ -72,29 +108,11 @@ class Cart extends GetxController {
     await fetchCartItems(token!);
   }
 
-  void decreaseQty(int itemId) {
-    final index = cartItems.indexWhere((i) => i.item_id == itemId);
-    if (index != -1) {
-      final current = cartItems[index];
-      if (current.qty > 1) {
-        cartItems[index] = CartModel(
-          id: current.id,
-          qty: current.qty - 1,
-          res_name: current.res_name,
-          res_thumb: current.res_thumb,
-          item_name: current.item_name,
-          item_thumb: current.item_thumb,
-          item_id: current.item_id,
-          price: current.price,
-        );
-      } else {
-        cartItems.removeAt(index);
-      }
-    }
-  }
-
   void checkout() {
-    // Implement checkout logic here
-    Get.snackbar('Checkout', 'Proceeding to checkout...');
+    deliveryAddress.value = UserService.cachedUser != null
+        ? UserService.cachedUser!.address
+        : "Please go to 'Profile' and update your pin location!";
+
+    Get.toNamed('/checkout');
   }
 }
